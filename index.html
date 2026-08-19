@@ -1,597 +1,691 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keripik Bu Siti - Camilan Renyah</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#4A3319', // Dark brown for text/buttons
-                            light: '#F8F4E6', // Cream background
-                            accent: '#8C5A2B', // Lighter brown
-                            green: '#3E5336', // Dark green for promo
-                            card: '#FFFFFF'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        html { scroll-behavior: smooth; }
-        body { background-color: #F8F4E6; }
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stephen — Frontend Developer</title>
+<meta name="description" content="Portfolio Stephen (Pheen) — Frontend Developer & UI/UX Designer." />
 
-        /* ---------- Nav shrink-on-scroll ---------- */
-        #navbar { transition: padding .35s ease, box-shadow .35s ease, background-color .35s ease; }
-        #navbar.scrolled { padding-top: .6rem; padding-bottom: .6rem; box-shadow: 0 8px 24px -12px rgba(74,51,25,.25); }
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-        /* ---------- Scroll reveal ---------- */
-        .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.22,.9,.32,1), transform .7s cubic-bezier(.22,.9,.32,1); transition-delay: var(--d, 0ms); }
-        .reveal.in-view { opacity: 1; transform: translateY(0); }
-        .reveal-scale { opacity: 0; transform: scale(.92); transition: opacity .6s ease, transform .6s cubic-bezier(.22,.9,.32,1); transition-delay: var(--d, 0ms); }
-        .reveal-scale.in-view { opacity: 1; transform: scale(1); }
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --ink:#0B0D10;
+    --ink-raised:#14171B;
+    --ink-raised-2:#191D22;
+    --ink-line:#262B31;
+    --paper:#EDEAE3;
+    --fog:#868D96;
+    --signal:#F2A73B;
+    --signal-dim:#7A5A28;
+    --wire:#4FD1C5;
+    --green:#6FCF97;
 
-        /* ---------- Hero entrance ---------- */
-        .hero-in { opacity: 0; transform: translateY(22px); animation: heroIn .8s cubic-bezier(.22,.9,.32,1) forwards; animation-delay: var(--d, 0ms); }
-        @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'Plus Jakarta Sans', -apple-system, sans-serif;
 
-        /* ---------- Floating hero image ---------- */
-        .float-slow { animation: floatSlow 5s ease-in-out infinite; }
-        @keyframes floatSlow { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(0.4deg); } }
-        .badge-wobble { animation: floatSlow 5s ease-in-out infinite; animation-delay: .3s; transform-origin: center; }
-        .badge-wobble:hover { animation-play-state: paused; transform: rotate(-12deg) scale(1.08); }
+    --radius-s:6px;
+    --radius-m:10px;
+    --edge:1px solid var(--ink-line);
+  }
 
-        /* ---------- Product cards ---------- */
-        .product-card { transition: transform .45s cubic-bezier(.22,.9,.32,1), box-shadow .45s ease; }
-        .product-card:hover { transform: translateY(-8px); }
-        .product-card img { transition: transform .6s cubic-bezier(.22,.9,.32,1); }
-        .product-card:hover img { transform: scale(1.08); }
-        .like-btn { transition: transform .35s cubic-bezier(.34,1.56,.64,1), color .25s ease, background-color .25s ease; }
-        .like-btn.liked { color: #ef4444; transform: scale(1.15); }
-        .like-btn:active { transform: scale(.85); }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:88px; }
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  img{ max-width:100%; display:block; }
+  :focus-visible{ outline:2px solid var(--signal); outline-offset:3px; border-radius:4px; }
 
-        .add-cart-btn { position: relative; overflow: hidden; transition: transform .2s ease, background-color .25s ease; }
-        .add-cart-btn:active { transform: scale(.96); }
-        .add-cart-btn.added { background-color: #3E5336 !important; }
-        .add-cart-btn .btn-shine { position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%); transform: translateX(-120%); transition: transform .6s ease; }
-        .add-cart-btn:hover .btn-shine { transform: translateX(120%); }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
 
-        /* ---------- Category pills ---------- */
-        .cat-btn { transition: background-color .3s ease, color .3s ease, border-color .3s ease, transform .2s ease; }
-        .cat-btn:active { transform: scale(.95); }
+  /* ============ BACKDROP ============ */
+  .backdrop{ position:fixed; inset:0; z-index:-1; background:var(--ink); }
+  .backdrop .grain{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:32px 32px;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+  .backdrop .glow{
+    position:absolute; width:640px; height:640px; left:50%; top:-320px;
+    transform:translateX(-50%);
+    background:radial-gradient(circle, rgba(242,167,59,.05), transparent 65%);
+  }
 
-        /* ---------- Cart icon pop ---------- */
-        #cart-icon.pop { animation: cartPop .45s cubic-bezier(.34,1.56,.64,1); }
-        @keyframes cartPop { 0% { transform: scale(1); } 35% { transform: scale(1.35) rotate(-8deg); } 100% { transform: scale(1); } }
+  /* ============ TAB BAR (NAV) ============ */
+  .tabbar{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(11,13,16,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:var(--edge);
+  }
+  .tabbar-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:center; gap:28px;
+    padding:0 6%; height:56px;
+  }
+  .tabbar-brand{
+    font-family:var(--mono); font-weight:600; font-size:14px;
+    display:flex; align-items:center; gap:8px; flex-shrink:0;
+  }
+  .brand-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--signal);
+    box-shadow:0 0 8px rgba(242,167,59,.6);
+    animation:pulseDot 2.2s ease-in-out infinite;
+  }
+  .brand-dim{ color:var(--fog); }
+  .tabbar-tabs{ display:flex; height:100%; overflow-x:auto; scrollbar-width:none; }
+  .tabbar-tabs::-webkit-scrollbar{ display:none; }
+  .tab{
+    font-family:var(--mono); font-size:12.5px; color:var(--fog);
+    display:flex; align-items:center; gap:7px;
+    padding:0 16px; height:100%;
+    border-right:var(--edge);
+    white-space:nowrap;
+    position:relative;
+    transition:color .25s ease, background .25s ease;
+  }
+  .tab:hover{ color:var(--paper); background:rgba(255,255,255,.02); }
+  .tab.active{ color:var(--paper); background:var(--ink-raised); }
+  .tab.active::after{
+    content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px;
+    background:var(--signal);
+  }
+  .tab-dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .dot-tsx{ background:var(--wire); }
+  .dot-md{ background:var(--fog); }
+  .dot-json{ background:var(--signal); }
+  .dot-dir{ background:var(--wire); }
+  .dot-sh{ background:var(--green); }
 
-        /* ---------- Fly-to-cart chip ---------- */
-        .fly-chip { position: fixed; z-index: 200; font-size: 20px; pointer-events: none; will-change: transform, opacity; transition: transform .7s cubic-bezier(.2,.65,.3,1), opacity .7s ease; }
+  .tabbar-toggle{
+    display:none; margin-left:auto; width:30px; height:30px;
+    border:var(--edge); border-radius:var(--radius-s); background:var(--ink-raised);
+    flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    cursor:pointer;
+  }
+  .tabbar-toggle span{ width:14px; height:1.5px; background:var(--paper); }
 
-        /* ---------- Why-choose icons ---------- */
-        .feature-icon { transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease; }
-        .feature-icon:hover { transform: translateY(-6px) scale(1.08); box-shadow: 0 12px 20px -8px rgba(74,51,25,.3); }
+  @keyframes pulseDot{ 0%,100%{opacity:1} 50%{opacity:.35} }
 
-        /* ---------- About image tilt ---------- */
-        .tilt-img { transition: transform .5s cubic-bezier(.22,.9,.32,1); }
-        .tilt-img:hover { transform: rotate(-1.5deg) scale(1.02); }
+  /* ============ SHARED SECTION SHELL ============ */
+  .section{ max-width:1180px; margin:0 auto; padding:120px 6% 40px; }
+  .section-head{ margin-bottom:34px; }
+  .file-label{
+    font-family:var(--mono); font-size:11.5px; color:var(--fog);
+    display:flex; align-items:center; gap:8px; letter-spacing:.04em;
+    margin-bottom:14px;
+  }
+  .section-head h2{
+    font-family:var(--mono); font-weight:600;
+    font-size:clamp(28px,4vw,42px); letter-spacing:-.02em; color:var(--paper);
+  }
+  .accent{ color:var(--signal); }
 
-        /* ---------- Promo blob ---------- */
-        .promo-blob { animation: blobPulse 6s ease-in-out infinite; }
-        @keyframes blobPulse { 0%,100% { transform: scale(1); opacity: .5; } 50% { transform: scale(1.15); opacity: .8; } }
-        .promo-btn { transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease; }
-        .promo-btn:hover { transform: translateY(-3px) scale(1.04); }
+  /* generic "window" chrome reused by hero / json / terminal panels */
+  .code-window, .editor-window, .json-window, .terminal-window{
+    background:var(--ink-raised);
+    border:var(--edge);
+    border-radius:var(--radius-m);
+    overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  }
+  .window-bar{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 16px;
+    border-bottom:var(--edge);
+    background:var(--ink-raised-2);
+  }
+  .window-dots{ display:flex; gap:6px; }
+  .window-dots i{ width:9px; height:9px; border-radius:50%; background:var(--ink-line); }
+  .window-path{ font-family:var(--mono); font-size:11.5px; color:var(--fog); }
+  .window-body{ padding:22px 24px; }
 
-        /* ---------- Testimonial cards ---------- */
-        .testi-card { transition: transform .4s ease, box-shadow .4s ease; }
-        .testi-card:hover { transform: translateY(-6px); box-shadow: 0 16px 28px -14px rgba(74,51,25,.25); }
-        .testi-avatar { transition: transform .35s ease; }
-        .testi-card:hover .testi-avatar { transform: scale(1.1); }
+  /* ============ HERO ============ */
+  .hero{ padding-top:150px; min-height:92vh; display:flex; align-items:center; }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 1fr; gap:56px;
+    align-items:center; width:100%;
+  }
+  .code-comment{ font-family:var(--mono); font-size:13px; color:var(--fog); margin-bottom:14px; }
+  .hero-title{
+    font-family:var(--mono); font-weight:600;
+    font-size:clamp(30px,4.6vw,52px); line-height:1.15; letter-spacing:-.02em;
+    margin-bottom:18px;
+  }
+  .kw{ color:var(--wire); }
+  .op{ color:var(--fog); }
+  .str{ color:var(--signal); }
+  .hero-role{
+    font-family:var(--mono); font-size:17px; color:var(--paper);
+    display:flex; align-items:center; gap:8px; min-height:26px; margin-bottom:22px;
+  }
+  .prompt{ color:var(--green); }
+  .caret{
+    display:inline-block; width:9px; height:19px; background:var(--signal);
+    animation:blink .9s step-end infinite; border-radius:1px;
+  }
+  @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:0} }
+  .hero-desc{
+    font-size:15.5px; line-height:1.8; color:rgba(237,234,227,.68);
+    max-width:480px; margin-bottom:30px;
+  }
+  .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:26px; }
+  .btn{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    padding:12px 20px; border-radius:var(--radius-s);
+    display:inline-flex; align-items:center; gap:9px;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .btn-glyph{ font-size:11px; }
+  .btn-primary{ background:var(--signal); color:#1A1305; border:1px solid var(--signal); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(242,167,59,.25); }
+  .btn-ghost{ background:transparent; border:var(--edge); color:var(--paper); }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:var(--wire); color:var(--wire); }
+  .hero-meta{ display:flex; gap:22px; flex-wrap:wrap; }
+  .meta-item{ font-family:var(--mono); font-size:11.5px; color:var(--fog); display:flex; align-items:center; gap:7px; }
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 8px rgba(111,207,151,.5); animation:pulseDot 2s ease-in-out infinite;
+  }
 
-        /* ---------- Modal transition ---------- */
-        .modal { display: flex; opacity: 0; pointer-events: none; transition: opacity .3s ease; }
-        .modal.active { opacity: 1; pointer-events: auto; }
-        .modal .modal-panel { transform: scale(.9) translateY(16px); transition: transform .35s cubic-bezier(.22,.9,.32,1); }
-        .modal.active .modal-panel { transform: scale(1) translateY(0); }
+  .editor-window{ transition:transform .5s ease, box-shadow .5s ease; }
+  .editor-window:hover{ transform:translateY(-4px); }
+  .code-block{
+    font-family:var(--mono); font-size:13px; line-height:1.9;
+    white-space:pre; overflow-x:auto; color:rgba(237,234,227,.85);
+  }
+  .ln{ display:inline-block; width:20px; color:#3E4650; user-select:none; }
+  .brace{ color:var(--fog); }
+  .key{ color:var(--wire); }
+  .str{ color:var(--signal); }
+  .bool{ color:var(--green); }
+  .avatar-strip{
+    margin-top:20px; padding-top:20px; border-top:var(--edge);
+    display:flex; align-items:center; gap:14px;
+  }
+  .avatar-mono{
+    width:46px; height:46px; border-radius:var(--radius-s);
+    background:linear-gradient(150deg, var(--signal), #C97A18);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-weight:700; font-size:14px; color:#1A1305;
+    flex-shrink:0;
+  }
+  .avatar-info{ display:flex; flex-direction:column; gap:3px; }
+  .avatar-info strong{ font-size:14px; font-weight:600; }
+  .avatar-info span{ font-family:var(--mono); font-size:11.5px; color:var(--fog); }
 
-        /* ---------- Link underline grow ---------- */
-        .nav-link { position: relative; }
-        .nav-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0%; height: 2px; background: #8C5A2B; transition: width .3s ease; }
-        .nav-link:hover::after { width: 100%; }
+  /* ============ ABOUT ============ */
+  .about-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:22px; align-items:stretch; }
+  .md-pane{
+    background:var(--ink-raised); border:var(--edge); border-radius:var(--radius-m);
+    padding:32px 34px;
+  }
+  .md-mark{ font-family:var(--mono); color:var(--wire); font-size:13px; margin-right:6px; }
+  .md-pane p{ font-size:13.5px; font-weight:600; margin-bottom:10px; }
+  .md-body{
+    font-size:15px; font-weight:400; line-height:1.85; color:rgba(237,234,227,.68);
+    margin-bottom:26px !important;
+  }
+  .md-quote{
+    font-family:var(--mono); font-size:13.5px; color:var(--paper);
+    border-left:2px solid var(--signal); padding-left:16px;
+    display:flex; gap:10px; font-weight:500 !important;
+  }
+  .quote-mark{ color:var(--signal); }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
-        }
-    </style>
+  .blame-pane{
+    background:var(--ink-raised); border:var(--edge); border-radius:var(--radius-m);
+    padding:26px 26px 24px; display:flex; flex-direction:column;
+  }
+  .blame-head{ font-family:var(--mono); font-size:11.5px; color:var(--fog); margin-bottom:22px; letter-spacing:.04em; }
+  .blame-row{ display:flex; gap:16px; align-items:flex-start; margin-bottom:22px; }
+  .blame-num{
+    font-family:var(--mono); font-weight:700; font-size:26px; color:var(--signal);
+    min-width:44px;
+  }
+  .blame-row strong{ display:block; font-size:13.5px; margin-bottom:3px; }
+  .blame-row span{ font-size:12px; color:var(--fog); line-height:1.5; display:block; }
+  .blame-divider{ height:1px; background:var(--ink-line); margin:4px 0 18px; }
+  .blame-tools span:first-child{ font-family:var(--mono); font-size:11px; color:var(--fog); display:block; margin-bottom:10px; }
+  .blame-tags{ display:flex; flex-wrap:wrap; gap:7px; }
+  .blame-tags span{
+    font-family:var(--mono); font-size:11px; padding:5px 10px;
+    border:var(--edge); border-radius:20px; color:rgba(237,234,227,.7);
+  }
+
+  /* ============ SKILLS ============ */
+  .json-body{ padding:26px 28px; }
+  .json-group{ margin-bottom:18px; }
+  .json-group:last-child{ margin-bottom:0; }
+  .json-key{ font-family:var(--mono); font-size:13.5px; color:var(--wire); margin-bottom:12px; }
+  .colon{ color:var(--fog); }
+  .json-close{ font-family:var(--mono); font-size:13.5px; color:var(--fog); margin-top:12px; }
+  .pill-row{ display:flex; flex-wrap:wrap; gap:9px; padding-left:20px; }
+  .pill{
+    font-family:var(--mono); font-size:12.5px; padding:7px 14px;
+    background:var(--ink-raised-2); border:var(--edge); border-radius:var(--radius-s);
+    color:var(--signal); transition:border-color .25s ease, transform .25s ease;
+  }
+  .pill:hover{ border-color:var(--signal); transform:translateY(-2px); }
+
+  /* ============ PROJECTS ============ */
+  .terminal-body{ padding:22px 24px 26px; }
+  .term-line{ font-family:var(--mono); font-size:13px; color:var(--paper); margin-bottom:16px; }
+  .term-line.dim{ color:var(--fog); margin-top:16px; margin-bottom:0; }
+  .prompt-sign{ color:var(--green); margin-right:8px; }
+  .status-line{ display:flex; align-items:center; gap:9px; color:var(--green); }
+
+  .dir-table{ border:var(--edge); border-radius:var(--radius-s); overflow:hidden; }
+  .dir-head{
+    display:grid; grid-template-columns:70px 1fr 220px 34px;
+    padding:10px 16px; font-family:var(--mono); font-size:10.5px; color:var(--fog);
+    letter-spacing:.08em; text-transform:uppercase; border-bottom:var(--edge);
+    background:var(--ink-raised-2);
+  }
+  .dir-row{
+    display:grid; grid-template-columns:70px 1fr 220px 34px;
+    align-items:center; gap:10px;
+    padding:16px; border-bottom:var(--edge);
+    transition:background .2s ease, border-left-color .2s ease;
+    border-left:2px solid transparent;
+  }
+  .dir-row:last-child{ border-bottom:none; }
+  .dir-row:hover{ background:rgba(242,167,59,.04); border-left-color:var(--signal); }
+  .dir-type{
+    font-family:var(--mono); font-size:10.5px; font-weight:600;
+    padding:4px 8px; border-radius:4px; width:fit-content;
+  }
+  .type-app{ color:var(--wire); background:rgba(79,209,197,.1); }
+  .type-live{ color:var(--green); background:rgba(111,207,151,.1); }
+  .dir-name{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .dir-name{ font-family:var(--mono); font-size:14px; font-weight:600; color:var(--paper); }
+  .dir-name em{ font-style:normal; color:var(--fog); font-weight:400; font-size:11px; margin-left:6px; }
+  .dir-name small{ font-family:var(--sans); font-size:12.5px; font-weight:400; color:var(--fog); line-height:1.5; }
+  .dir-stack{ display:flex; flex-wrap:wrap; gap:6px; }
+  .dir-stack i{
+    font-style:normal; font-family:var(--mono); font-size:10px; color:var(--fog);
+    border:var(--edge); border-radius:12px; padding:4px 8px;
+  }
+  .dir-open{ font-size:15px; color:var(--fog); text-align:right; transition:color .2s ease, transform .2s ease; }
+  .dir-row:hover .dir-open{ color:var(--signal); transform:translate(2px,-2px); }
+  .dir-url{ font-family:var(--mono); font-size:10.5px; color:#5B636D; margin-top:2px; }
+
+  /* ============ CONTACT ============ */
+  .contact-window{ margin-bottom:12px; }
+  .cmd-row{
+    display:flex; align-items:center; gap:14px;
+    padding:14px 16px; border:var(--edge); border-radius:var(--radius-s);
+    margin-bottom:10px; transition:border-color .2s ease, background .2s ease;
+  }
+  .cmd-row:hover{ border-color:var(--wire); background:rgba(79,209,197,.04); }
+  .cmd-text{ font-family:var(--mono); font-size:13px; color:var(--paper); flex-shrink:0; }
+  .cmd-text .fn{ color:var(--wire); }
+  .cmd-output{ font-family:var(--mono); font-size:12.5px; color:var(--fog); flex:1; text-align:right; }
+  .cmd-go{ color:var(--fog); font-size:14px; transition:transform .2s ease, color .2s ease; }
+  .cmd-row:hover .cmd-go{ color:var(--wire); transform:translate(2px,-2px); }
+
+  .site-footer{
+    text-align:center; padding:50px 0 20px;
+    font-family:var(--mono); font-size:11.5px; color:var(--fog);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:920px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; }
+    .dir-head{ display:none; }
+    .dir-row{ grid-template-columns:1fr 30px; grid-template-areas:"type open" "name name" "stack stack"; row-gap:8px; }
+    .dir-type{ grid-area:type; }
+    .dir-open{ grid-area:open; }
+    .dir-name{ grid-area:name; }
+    .dir-stack{ grid-area:stack; }
+  }
+
+  @media (max-width:760px){
+    .tabbar-toggle{ display:flex; }
+    .tabbar-tabs{
+      position:absolute; top:56px; left:0; right:0;
+      flex-direction:column; height:auto;
+      background:var(--ink-raised); border-bottom:var(--edge);
+      max-height:0; overflow:hidden; transition:max-height .3s ease;
+    }
+    .tabbar-tabs.open{ max-height:320px; overflow-y:auto; }
+    .tab{ height:46px; border-right:none; border-bottom:var(--edge); padding:0 20px; }
+    .section{ padding:100px 5.5% 30px; }
+    .hero{ padding-top:130px; }
+    .cmd-row{ flex-wrap:wrap; }
+    .cmd-output{ text-align:left; width:100%; }
+  }
+
+  @media (max-width:480px){
+    .hero-title{ font-size:26px; }
+    .window-body{ padding:18px 16px; }
+  }
+</style>
 </head>
-<body class="text-brand-dark font-sans antialiased">
 
-    <!-- Navbar -->
-    <nav id="navbar" class="sticky top-0 z-50 bg-brand-light/90 backdrop-blur-md border-b border-brand-accent/20 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-brand-accent rounded-full flex items-center justify-center text-white font-bold"><img src="avatar.jpg" alt="Logo" class="w-full h-full object-cover rounded-full"></div>
-                <span class="font-bold text-xl tracking-tight">Keripik Bu Siti</span>
-            </div>
-            
-            <div class="hidden md:flex gap-8 font-medium">
-                <a href="#" class="nav-link hover:text-brand-accent transition">Beranda</a>
-                <a href="#produk" class="nav-link hover:text-brand-accent transition">Produk</a>
-                <a href="#tentang" class="nav-link hover:text-brand-accent transition">Tentang Kami</a>
-                <a href="#kontak" class="nav-link hover:text-brand-accent transition">Kontak</a>
-            </div>
+<body>
 
-            <div class="flex items-center gap-5">
-                <button class="hover:text-brand-accent transition hover:scale-110"><i class="fa-solid fa-search"></i></button>
-                <div id="cart-icon" class="relative cursor-pointer">
-                    <i class="fa-solid fa-shopping-cart text-lg"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                </div>
-                <!-- Auth Section -->
-                <div id="auth-section">
-                    <button onclick="toggleModal('login-modal')" class="bg-brand-dark text-white px-5 py-2 rounded-full font-medium hover:bg-brand-accent transition shadow-md hover:shadow-lg hover:-translate-y-0.5">Masuk</button>
-                </div>
-            </div>
-        </div>
-    </nav>
+<div class="backdrop">
+  <div class="grain"></div>
+  <div class="glow"></div>
+</div>
 
-    <!-- Hero Section -->
-    <section class="max-w-7xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row items-center gap-10">
-        <div class="md:w-1/2 space-y-6">
-            <div class="hero-in inline-block bg-white px-4 py-1.5 rounded-full text-sm font-semibold border border-brand-accent/30 shadow-sm text-brand-accent" style="--d:0ms">
-                Camilan Rumahan • Dibuat dengan Cinta
-            </div>
-            <h1 class="hero-in text-5xl md:text-6xl font-bold leading-tight font-serif text-brand-dark" style="--d:120ms">
-                Camilan Renyah, <br> Rasa Rumahan.
-            </h1>
-            <p class="hero-in text-lg text-gray-700 max-w-md" style="--d:240ms">
-                Keripik khas rumahan dengan bahan pilihan dan rasa yang bikin ingin ngemil lagi.
-            </p>
-            <div class="hero-in flex gap-4 pt-4" style="--d:360ms">
-                <a href="#produk" class="bg-brand-dark text-white px-6 py-3 rounded-full font-semibold hover:bg-brand-accent transition shadow-lg hover:-translate-y-0.5 hover:shadow-xl">Belanja Sekarang</a>
-                <a href="#produk" class="border-2 border-brand-dark text-brand-dark px-6 py-3 rounded-full font-semibold hover:bg-brand-dark hover:text-white transition hover:-translate-y-0.5">Lihat Produk</a>
-            </div>
-        </div>
-        <div class="hero-in md:w-1/2 relative" style="--d:180ms">
-            <!-- Placeholder for Hero Image (using unsplash for mockup) -->
-            <img src="6.jpg" alt="Produk Keripik" class="float-slow rounded-3xl shadow-2xl object-cover h-[400px] w-full">
-            <div class="badge-wobble absolute -bottom-6 -left-6 bg-brand-green text-white p-4 rounded-full w-24 h-24 flex items-center justify-center text-center font-bold shadow-lg transform -rotate-12">
-                100%<br>Rumahan
-            </div>
-        </div>
-    </section>
+<!-- ===== TAB BAR NAV ===== -->
+<nav class="tabbar">
+  <div class="tabbar-inner">
+    <div class="tabbar-brand"><span class="brand-dot"></span>stephen<span class="brand-dim">.dev</span></div>
+    <div class="tabbar-tabs" id="tabbarTabs">
+      <a href="#home" class="tab active" data-section="home"><i class="tab-dot dot-tsx"></i>home.tsx</a>
+      <a href="#about" class="tab" data-section="about"><i class="tab-dot dot-md"></i>about.md</a>
+      <a href="#skills" class="tab" data-section="skills"><i class="tab-dot dot-json"></i>skills.json</a>
+      <a href="#projects" class="tab" data-section="projects"><i class="tab-dot dot-dir"></i>projects/</a>
+      <a href="#contact" class="tab" data-section="contact"><i class="tab-dot dot-sh"></i>contact.sh</a>
+    </div>
+    <button class="tabbar-toggle" id="tabToggle" aria-label="Buka menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-    <!-- Product Section -->
-    <section id="produk" class="max-w-7xl mx-auto px-6 py-16 text-center">
-        <p class="reveal text-sm font-semibold text-brand-accent uppercase tracking-wider mb-2" style="--d:0ms">Product Section</p>
-        <h2 class="reveal text-3xl font-bold font-serif mb-3" style="--d:80ms">Favorit Pelanggan</h2>
-        <p class="reveal text-gray-600 mb-10" style="--d:140ms">Camilan pilihan yang paling sering dipesan.</p>
-
-        <!-- Categories -->
-        <div class="reveal flex flex-wrap justify-center gap-3 mb-10" style="--d:200ms">
-            <button onclick="setActiveCategory(this)" class="cat-btn active bg-brand-dark text-white px-5 py-2 rounded-full text-sm font-medium shadow-md">Semua</button>
-            <button onclick="setActiveCategory(this)" class="cat-btn bg-white text-brand-dark border border-gray-300 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-50">Keripik</button>
-            <button onclick="setActiveCategory(this)" class="cat-btn bg-white text-brand-dark border border-gray-300 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-50">Basreng</button>
-            <button onclick="setActiveCategory(this)" class="cat-btn bg-white text-brand-dark border border-gray-300 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-50">Sale Pisang</button>
-            <button onclick="setActiveCategory(this)" class="cat-btn bg-white text-brand-dark border border-gray-300 px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-50">Paket Hemat</button>
-        </div>
-
-        <!-- Product Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 text-left">
-            <!-- Item 1 -->
-            <div class="product-card reveal bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative group hover:shadow-xl" style="--d:0ms">
-                <button onclick="toggleLike(this)" class="like-btn absolute top-6 right-6 z-10 bg-white p-2 rounded-full shadow text-gray-400"><i class="fa-regular fa-heart"></i></button>
-                <div class="overflow-hidden rounded-xl mb-4"><img src="1.jpg" alt="Keripik Pisang" class="w-full h-40 object-cover"></div>
-                <h3 class="font-bold text-lg leading-tight mb-1">Keripik Pisang Original</h3>
-                <p class="text-xs text-gray-500 mb-2 line-clamp-2">Keripik pisang original renyah dengan rasa manis alami.</p>
-                <div class="flex text-yellow-400 text-xs mb-3">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-                </div>
-                <div class="font-bold text-lg mb-4">Rp15.000</div>
-                <button onclick="addToCart(event, this)" class="add-cart-btn w-full bg-brand-dark text-white py-2 rounded-full text-sm font-medium hover:bg-brand-accent"><span class="btn-shine"></span><span class="btn-label">Tambah ke Keranjang</span></button>
-            </div>
-            <!-- Item 2 -->
-            <div class="product-card reveal bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative group hover:shadow-xl" style="--d:90ms">
-                <button onclick="toggleLike(this)" class="like-btn absolute top-6 right-6 z-10 bg-white p-2 rounded-full shadow text-gray-400"><i class="fa-regular fa-heart"></i></button>
-                <div class="overflow-hidden rounded-xl mb-4"><img src="2.jpg" alt="Keripik Singkong" class="w-full h-40 object-cover"></div>
-                <h3 class="font-bold text-lg leading-tight mb-1">Keripik Singkong Balado</h3>
-                <p class="text-xs text-gray-500 mb-2 line-clamp-2">Keripik singkong pedas manis dengan bumbu balado khas.</p>
-                <div class="flex text-yellow-400 text-xs mb-3">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <div class="font-bold text-lg mb-4">Rp13.000</div>
-                <button onclick="addToCart(event, this)" class="add-cart-btn w-full bg-brand-dark text-white py-2 rounded-full text-sm font-medium hover:bg-brand-accent"><span class="btn-shine"></span><span class="btn-label">Tambah ke Keranjang</span></button>
-            </div>
-            <!-- Item 3 -->
-            <div class="product-card reveal bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative group hover:shadow-xl" style="--d:180ms">
-                <button onclick="toggleLike(this)" class="like-btn absolute top-6 right-6 z-10 bg-white p-2 rounded-full shadow text-gray-400"><i class="fa-regular fa-heart"></i></button>
-                <div class="overflow-hidden rounded-xl mb-4"><img src="3.jpg" alt="Keripik Tempe" class="w-full h-40 object-cover"></div>
-                <h3 class="font-bold text-lg leading-tight mb-1">Keripik Tempe Gurih</h3>
-                <p class="text-xs text-gray-500 mb-2 line-clamp-2">Keripik tempe tipis digoreng garing dengan bumbu bawang.</p>
-                <div class="flex text-yellow-400 text-xs mb-3">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                </div>
-                <div class="font-bold text-lg mb-4">Rp15.000</div>
-                <button onclick="addToCart(event, this)" class="add-cart-btn w-full bg-brand-dark text-white py-2 rounded-full text-sm font-medium hover:bg-brand-accent"><span class="btn-shine"></span><span class="btn-label">Tambah ke Keranjang</span></button>
-            </div>
-            <!-- Item 4 -->
-            <div class="product-card reveal bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative group hover:shadow-xl" style="--d:270ms">
-                <button onclick="toggleLike(this)" class="like-btn absolute top-6 right-6 z-10 bg-white p-2 rounded-full shadow text-gray-400"><i class="fa-regular fa-heart"></i></button>
-                <div class="overflow-hidden rounded-xl mb-4"><img src="4.jpg" alt="Basreng" class="w-full h-40 object-cover"></div>
-                <h3 class="font-bold text-lg leading-tight mb-1">Basreng Pedas</h3>
-                <p class="text-xs text-gray-500 mb-2 line-clamp-2">Bakso goreng renyah bumbu cabai asli ekstra pedas.</p>
-                <div class="flex text-yellow-400 text-xs mb-3">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <div class="font-bold text-lg mb-4">Rp12.000</div>
-                <button onclick="addToCart(event, this)" class="add-cart-btn w-full bg-brand-dark text-white py-2 rounded-full text-sm font-medium hover:bg-brand-accent"><span class="btn-shine"></span><span class="btn-label">Tambah ke Keranjang</span></button>
-            </div>
-            <!-- Item 5 -->
-            <div class="product-card reveal bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative group hover:shadow-xl" style="--d:360ms">
-                <button onclick="toggleLike(this)" class="like-btn absolute top-6 right-6 z-10 bg-white p-2 rounded-full shadow text-gray-400"><i class="fa-regular fa-heart"></i></button>
-                <div class="overflow-hidden rounded-xl mb-4"><img src="5.jpg" alt="Sale Pisang" class="w-full h-40 object-cover"></div>
-                <h3 class="font-bold text-lg leading-tight mb-1">Sale Pisang Manis</h3>
-                <p class="text-xs text-gray-500 mb-2 line-clamp-2">Sale pisang manis legit digoreng tepung tipis.</p>
-                <div class="flex text-yellow-400 text-xs mb-3">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-                </div>
-                <div class="font-bold text-lg mb-4">Rp14.000</div>
-                <button onclick="addToCart(event, this)" class="add-cart-btn w-full bg-brand-dark text-white py-2 rounded-full text-sm font-medium hover:bg-brand-accent"><span class="btn-shine"></span><span class="btn-label">Tambah ke Keranjang</span></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us & About Section -->
-    <section id="tentang" class="max-w-7xl mx-auto px-6 py-16">
-        <div class="text-center mb-16">
-            <p class="reveal text-sm font-semibold text-brand-accent uppercase tracking-wider mb-2" style="--d:0ms">Why Choose Us</p>
-            <h2 class="reveal text-3xl font-bold font-serif mb-10" style="--d:80ms">Kualitas Utama Kami</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="reveal-scale flex flex-col items-center" style="--d:0ms">
-                    <div class="feature-icon w-14 h-14 bg-white rounded-full flex items-center justify-center shadow mb-4 text-brand-dark text-xl"><i class="fa-solid fa-leaf"></i></div>
-                    <h4 class="font-bold text-sm mb-2">Dibuat Fresh</h4>
-                    <p class="text-xs text-gray-500">Dibuat setiap hari untuk menjaga kerenyahan.</p>
-                </div>
-                <div class="reveal-scale flex flex-col items-center" style="--d:100ms">
-                    <div class="feature-icon w-14 h-14 bg-white rounded-full flex items-center justify-center shadow mb-4 text-brand-dark text-xl"><i class="fa-solid fa-medal"></i></div>
-                    <h4 class="font-bold text-sm mb-2">Bahan Berkualitas</h4>
-                    <p class="text-xs text-gray-500">Menggunakan bahan baku premium pilihan.</p>
-                </div>
-                <div class="reveal-scale flex flex-col items-center" style="--d:200ms">
-                    <div class="feature-icon w-14 h-14 bg-white rounded-full flex items-center justify-center shadow mb-4 text-brand-dark text-xl"><i class="fa-solid fa-tags"></i></div>
-                    <h4 class="font-bold text-sm mb-2">Harga Bersahabat</h4>
-                    <p class="text-xs text-gray-500">Harga terjangkau untuk semua kalangan.</p>
-                </div>
-                <div class="reveal-scale flex flex-col items-center" style="--d:300ms">
-                    <div class="feature-icon w-14 h-14 bg-white rounded-full flex items-center justify-center shadow mb-4 text-brand-dark text-xl"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h4 class="font-bold text-sm mb-2">Diproses Higienis</h4>
-                    <p class="text-xs text-gray-500">Standar kebersihan tinggi dalam produksi.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row items-center gap-12 pt-10">
-            <div class="reveal md:w-1/2" style="--d:0ms">
-                <img src="8.jpg" alt="Proses Pembuatan" class="tilt-img rounded-3xl shadow-xl">
-            </div>
-            <div class="reveal md:w-1/2" style="--d:150ms">
-                <h2 class="text-4xl font-bold font-serif mb-6 leading-tight">Dibuat dari Rumah,<br>Hadir untuk Semua.</h2>
-                <p class="text-gray-600 mb-4">
-                    Berawal dari resep keluarga turun-temurun, Keripik Bu Siti kini hadir menemani waktu santai keluarga di seluruh nusantara. Kami percaya bahwa camilan terbaik berasal dari tangan-tangan yang tulus membuatnya.
-                </p>
-                <p class="text-gray-600">
-                    Setiap gigitan keripik kami diproses dengan dedikasi penuh, memadukan cita rasa tradisional dengan standar kualitas modern yang higienis.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Promotional Section -->
-    <section class="max-w-7xl mx-auto px-6 py-12">
-        <div class="reveal-scale bg-brand-green rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between text-white relative overflow-hidden shadow-2xl">
-            <!-- Decorative circle -->
-            <div class="promo-blob absolute -right-20 -top-20 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl"></div>
-            
-            <div class="md:w-1/2 relative z-10 space-y-4 mb-8 md:mb-0">
-                <p class="text-sm font-semibold uppercase tracking-wider text-green-200">Promotional</p>
-                <h2 class="text-4xl md:text-5xl font-bold font-serif">Paket Ngemil Hemat</h2>
-                <p class="text-green-100 text-lg">Lebih banyak camilan, lebih hemat. Cocok untuk acara keluarga atau kumpul bersama teman.</p>
-                <button class="promo-btn mt-4 bg-white text-brand-green px-8 py-3 rounded-full font-bold hover:bg-gray-100 shadow-lg">Lihat Paket</button>
-            </div>
-            <div class="md:w-5/12 relative z-10 flex justify-center">
-                <!-- Using placeholder for bundle image -->
-                <img src="7.png" alt="Paket Hemat" class="float-slow">
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonial Section -->
-    <section class="max-w-7xl mx-auto px-6 py-16 text-center">
-        <p class="reveal text-sm font-semibold text-brand-accent uppercase tracking-wider mb-2" style="--d:0ms">Testimonial Section</p>
-        <h2 class="reveal text-3xl font-bold font-serif mb-10" style="--d:80ms">Apa Kata Mereka</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="testi-card reveal bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left" style="--d:0ms">
-                <div class="flex items-center gap-4 mb-4">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="testi-avatar w-12 h-12 rounded-full object-cover">
-                    <div>
-                        <h4 class="font-bold">Sinta N.</h4>
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-sm italic">"Keripik pisangnya juara banget! Renyah dan manisnya pas. Anak-anak di rumah suka sekali, pasti bakal langganan."</p>
-            </div>
-            <div class="testi-card reveal bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left" style="--d:120ms">
-                <div class="flex items-center gap-4 mb-4">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="testi-avatar w-12 h-12 rounded-full object-cover">
-                    <div>
-                        <h4 class="font-bold">Budi H.</h4>
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-sm italic">"Basreng pedasnya bikin nagih. Pedasnya nendang tapi gak lebay. Cocok buat temen nonton bola malam-malam."</p>
-            </div>
-            <div class="testi-card reveal bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left" style="--d:240ms">
-                <div class="flex items-center gap-4 mb-4">
-                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="testi-avatar w-12 h-12 rounded-full object-cover">
-                    <div>
-                        <h4 class="font-bold">Maya P.</h4>
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-sm italic">"Beli paket hemat buat acara arisan keluarga, semua pada nanya beli dimana. Packingnya juga rapi dan aman."</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="kontak" class="bg-brand-dark text-white pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-            <div class="md:col-span-2 pr-10">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-10 h-10 bg-brand-accent rounded-full flex items-center justify-center text-white font-bold"><img src="avatar.jpg" alt="Logo" class="w-full h-full object-cover rounded-full"></div>
-                    <span class="font-bold text-xl">Keripik Bu Siti</span>
-                </div>
-                <p class="text-gray-300 text-sm mb-6 leading-relaxed">
-                    Camilan rumahan yang selalu dinantikan. Kami berkomitmen memberikan kualitas terbaik dengan resep autentik Nusantara.
-                </p>
-            </div>
-            
-            <div>
-                <h4 class="font-bold mb-4">Navigasi</h4>
-                <ul class="space-y-2 text-sm text-gray-300">
-                    <li><a href="#" class="hover:text-white transition">Beranda</a></li>
-                    <li><a href="#produk" class="hover:text-white transition">Produk</a></li>
-                    <li><a href="#tentang" class="hover:text-white transition">Tentang Kami</a></li>
-                    <li><a href="#kontak" class="hover:text-white transition">Kontak</a></li>
-                </ul>
-            </div>
-            
-            <div>
-                <h4 class="font-bold mb-4">Kontak Kami</h4>
-                <ul class="space-y-3 text-sm text-gray-300">
-                    <li class="flex items-center gap-3"><i class="fa-brands fa-whatsapp text-green-400"></i> 0812-3456-7890</li>
-                    <li class="flex items-center gap-3"><i class="fa-brands fa-instagram text-pink-400"></i> @keripikbusiti</li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-location-dot mt-1 text-red-400"></i> <span>Jl. Camilan Enak No. 12<br>Jakarta Selatan, 12345</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-6 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
-            <p>&copy; 2026 Keripik Bu Siti. Hak Cipta Dilindungi.</p>
-            <p>Didesain untuk Prototype.</p>
-        </div>
-    </footer>
-
-    <!-- Login Modal (Hidden by default) -->
-    <div id="login-modal" class="modal fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm items-center justify-center p-4">
-        <div class="modal-panel bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl relative">
-            <button onclick="toggleModal('login-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 p-2 transition hover:rotate-90 duration-300">
-                <i class="fa-solid fa-times text-xl"></i>
-            </button>
-            
-            <div class="text-center mb-8">
-                <div class="w-14 h-14 bg-brand-accent rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">BS</div>
-                <h2 class="text-2xl font-bold font-serif text-brand-dark">Selamat Datang</h2>
-                <p class="text-gray-500 text-sm">Masuk untuk melanjutkan pesanan Anda.</p>
-            </div>
-
-            <form onsubmit="event.preventDefault(); login('customer')" class="space-y-4 mb-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" placeholder="nama@email.com" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-accent focus:border-brand-accent outline-none transition">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" placeholder="••••••••" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-accent focus:border-brand-accent outline-none transition">
-                </div>
-                <div class="flex justify-between items-center text-sm">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" class="rounded text-brand-accent focus:ring-brand-accent">
-                        <span>Ingat saya</span>
-                    </label>
-                    <a href="#" class="text-brand-accent font-medium hover:underline">Lupa password?</a>
-                </div>
-                <button type="submit" class="w-full bg-brand-dark text-white py-3 rounded-xl font-bold hover:bg-brand-accent transition shadow-md hover:shadow-lg">Masuk</button>
-            </form>
-
-            <div class="relative flex items-center justify-center mb-6">
-                <div class="border-t border-gray-300 w-full"></div>
-                <span class="bg-white px-3 text-xs text-gray-500 absolute">Atau Quick Login</span>
-            </div>
-
-            <!-- Quick Login Buttons for Prototype -->
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="login('customer')" class="flex items-center justify-center gap-2 border border-blue-500 text-blue-600 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-50 transition">
-                    <i class="fa-solid fa-user"></i> Customer
-                </button>
-                <button onclick="login('admin')" class="flex items-center justify-center gap-2 border border-purple-500 text-purple-600 py-2.5 rounded-xl text-sm font-bold hover:bg-purple-50 transition">
-                    <i class="fa-solid fa-user-shield"></i> Admin
-                </button>
-            </div>
-            
-            <p class="text-center text-sm text-gray-500 mt-8">
-                Belum punya akun? <a href="#" class="text-brand-accent font-bold hover:underline">Daftar sekarang</a>
-            </p>
-        </div>
+<!-- ===== HERO ===== -->
+<section id="home" class="section hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <p class="code-comment">// portfolio.init()</p>
+      <h1 class="hero-title"><span class="kw">const</span> dev <span class="op">=</span> <span class="str">"Stephen"</span><span class="op">;</span></h1>
+      <div class="hero-role"><span class="prompt">▸</span><span id="roleText"></span><span class="caret"></span></div>
+      <p class="hero-desc">Siswa RPL di SMK Bagimu Negeriku Semarang yang membangun antarmuka rapi, cepat, dan enak dipakai — dari sketsa di Figma sampai produk yang benar-benar live dan dipakai orang.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary"><span class="btn-glyph">▶</span>run projects.list()</a>
+        <a href="mailto:stephencpu8@gmail.com" class="btn btn-ghost"><span class="btn-glyph">$</span>contact --email</a>
+      </div>
+      <div class="hero-meta">
+        <span class="meta-item"><i class="status-dot"></i>available for internship</span>
+        <span class="meta-item">Semarang, ID</span>
+      </div>
     </div>
 
-    <!-- Scripts for interaction -->
-    <script>
-        // ---------- Nav shrink on scroll ----------
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 20);
-        });
+    <div class="hero-right">
+      <div class="editor-window">
+        <div class="window-bar">
+          <div class="window-dots"><i></i><i></i><i></i></div>
+          <span class="window-path">~/profile/card.json</span>
+        </div>
+        <div class="window-body">
+          <pre class="code-block"><code><span class="ln">1</span><span class="brace">{</span>
+<span class="ln">2</span>  <span class="key">"name"</span>: <span class="str">"Stephen A."</span>,
+<span class="ln">3</span>  <span class="key">"alias"</span>: <span class="str">"Pheen"</span>,
+<span class="ln">4</span>  <span class="key">"handle"</span>: <span class="str">"@i8ouleyy"</span>,
+<span class="ln">5</span>  <span class="key">"role"</span>: <span class="str">"Frontend Developer"</span>,
+<span class="ln">6</span>  <span class="key">"status"</span>: <span class="bool">"online"</span>
+<span class="ln">7</span><span class="brace">}</span></code></pre>
+          <div class="avatar-strip">
+            <div class="avatar-mono">PH</div>
+            <div class="avatar-info">
+              <strong>Stephen · Pheen</strong>
+              <span>Frontend Developer / UI-UX Designer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // ---------- Scroll reveal ----------
-        const revealEls = document.querySelectorAll('.reveal, .reveal-scale');
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    io.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        revealEls.forEach(el => io.observe(el));
+<!-- ===== ABOUT ===== -->
+<section id="about" class="section about">
+  <div class="section-head">
+    <span class="file-label"><i class="tab-dot dot-md"></i>about.md</span>
+    <h2>Tentang <span class="accent">saya</span></h2>
+  </div>
 
-        // ---------- Category filter (visual state only, prototype) ----------
-        function setActiveCategory(btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => {
-                b.classList.remove('active', 'bg-brand-dark', 'text-white', 'shadow-md');
-                b.classList.add('bg-white', 'text-brand-dark', 'border', 'border-gray-300');
-            });
-            btn.classList.add('active', 'bg-brand-dark', 'text-white', 'shadow-md');
-            btn.classList.remove('bg-white', 'border', 'border-gray-300');
+  <div class="about-grid">
+    <article class="md-pane">
+      <p><span class="md-mark">##</span>Siapa saya</p>
+      <p class="md-body">Saya <strong>Stephen</strong>, biasa dipanggil <strong>Pheen</strong> — frontend developer dan UI/UX designer yang senang mengubah ide jadi antarmuka yang bersih, responsif, dan enak dipakai. Saya suka menggali detail kecil: spacing, kontras, transisi — hal-hal yang bikin sebuah produk terasa "matang".</p>
+      <p><span class="md-mark">##</span>Cara kerja</p>
+      <p class="md-body">Mulai dari riset dan wireframe di Figma, lanjut ke markup yang rapi, lalu diselesaikan dengan interaksi secukupnya — bukan demi ramai, tapi demi jelas. Sebagian besar proyek saya deploy langsung supaya bisa dicoba, bukan cuma dilihat di mockup.</p>
+      <div class="md-quote"><span class="quote-mark">›</span>Working with heart, creating with mind.</div>
+    </article>
+
+    <aside class="blame-pane">
+      <div class="blame-head">git log --stat</div>
+      <div class="blame-row">
+        <span class="blame-num" data-count="3">0</span>
+        <div><strong>Proyek live</strong><span>Web app & landing page yang sudah deploy</span></div>
+      </div>
+      <div class="blame-row">
+        <span class="blame-num" data-count="3">0</span>
+        <div><strong>Tahun belajar</strong><span>Belajar lewat proyek nyata</span></div>
+      </div>
+      <div class="blame-divider"></div>
+      <div class="blame-tools">
+        <span>most active in</span>
+        <div class="blame-tags"><span>Figma</span><span>JavaScript</span><span>CSS</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="section skills">
+  <div class="section-head">
+    <span class="file-label"><i class="tab-dot dot-json"></i>skills.json</span>
+    <h2>Tools & <span class="accent">Teknologi</span></h2>
+  </div>
+
+  <div class="json-window">
+    <div class="window-bar">
+      <div class="window-dots"><i></i><i></i><i></i></div>
+      <span class="window-path">~/config/skills.json</span>
+    </div>
+    <div class="window-body json-body">
+      <div class="json-group">
+        <p class="json-key">"design"<span class="colon">:</span> [</p>
+        <div class="pill-row"><span class="pill">figma</span><span class="pill">canva</span></div>
+        <p class="json-close">],</p>
+      </div>
+      <div class="json-group">
+        <p class="json-key">"code"<span class="colon">:</span> [</p>
+        <div class="pill-row"><span class="pill">html5</span><span class="pill">css3</span><span class="pill">javascript</span></div>
+        <p class="json-close">],</p>
+      </div>
+      <div class="json-group">
+        <p class="json-key">"platform"<span class="colon">:</span> [</p>
+        <div class="pill-row"><span class="pill">vscode</span><span class="pill">github</span><span class="pill">vercel</span><span class="pill">supabase</span><span class="pill">mysql</span><span class="pill">claude-ai</span></div>
+        <p class="json-close">]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects" class="section projects">
+  <div class="section-head">
+    <span class="file-label"><i class="tab-dot dot-dir"></i>projects/</span>
+    <h2>Yang sudah <span class="accent">dibangun</span></h2>
+  </div>
+
+  <div class="terminal-window">
+    <div class="window-bar">
+      <div class="window-dots"><i></i><i></i><i></i></div>
+      <span class="window-path">~/projects</span>
+    </div>
+    <div class="window-body terminal-body">
+      <p class="term-line"><span class="prompt-sign">$</span>ls -la --live</p>
+      <div class="dir-table">
+        <div class="dir-head"><span>type</span><span>name</span><span>stack</span><span></span></div>
+
+        <a class="dir-row" href="https://aspirasiosis.vercel.app/" target="_blank" rel="noopener">
+          <span class="dir-type type-live">live</span>
+          <span class="dir-name">aspirasi-osis<em>/2026</em><small>Platform untuk siswa mengirim aspirasi & keluhan ke OSIS secara digital.</small><small class="dir-url">aspirasiosis.vercel.app</small></span>
+          <span class="dir-stack"><i>UI/UX</i><i>Frontend</i><i>Form</i></span>
+          <span class="dir-open">↗</span>
+        </a>
+
+        <a class="dir-row" href="https://dashboardosis.vercel.app/" target="_blank" rel="noopener">
+          <span class="dir-type type-live">live</span>
+          <span class="dir-name">dashboard-osis<em>/2026</em><small>Dashboard admin: pantau tren aspirasi mingguan, kategori, dan kelola pesan masuk.</small><small class="dir-url">dashboardosis.vercel.app</small></span>
+          <span class="dir-stack"><i>Dashboard</i><i>Data Viz</i><i>Admin Panel</i></span>
+          <span class="dir-open">↗</span>
+        </a>
+
+        <a class="dir-row" href="https://keripikbusiti.vercel.app/" target="_blank" rel="noopener">
+          <span class="dir-type type-live">live</span>
+          <span class="dir-name">keripik-busiti<em>/2026</em><small>Landing page e-commerce camilan rumahan — katalog produk sampai keranjang belanja.</small><small class="dir-url">keripikbusiti.vercel.app</small></span>
+          <span class="dir-stack"><i>E-commerce</i><i>Landing Page</i><i>UI/UX</i></span>
+          <span class="dir-open">↗</span>
+        </a>
+
+        <a class="dir-row" href="#home">
+          <span class="dir-type type-app">.app</span>
+          <span class="dir-name">this-portfolio<em>/2026</em><small>Situs ini — dibangun dengan tema code editor.</small></span>
+          <span class="dir-stack"><i>HTML</i><i>CSS</i><i>JS</i></span>
+          <span class="dir-open">↗</span>
+        </a>
+      </div>
+      <p class="term-line dim">4 items · updated 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="section contact">
+  <div class="section-head">
+    <span class="file-label"><i class="tab-dot dot-sh"></i>contact.sh</span>
+    <h2>Mari <span class="accent">terhubung</span></h2>
+  </div>
+
+  <div class="terminal-window contact-window">
+    <div class="window-bar">
+      <div class="window-dots"><i></i><i></i><i></i></div>
+      <span class="window-path">bash ~/contact.sh</span>
+    </div>
+    <div class="window-body terminal-body">
+      <p class="term-line"><span class="prompt-sign">$</span>./contact.sh</p>
+
+      <a class="cmd-row" href="mailto:stephencpu8@gmail.com">
+        <span class="cmd-text"><span class="fn">echo</span> $EMAIL</span>
+        <span class="cmd-output">stephencpu8@gmail.com</span>
+        <span class="cmd-go">↗</span>
+      </a>
+      <a class="cmd-row" href="https://instagram.com/i8ouleyy" target="_blank" rel="noopener">
+        <span class="cmd-text"><span class="fn">open</span> instagram</span>
+        <span class="cmd-output">@i8ouleyy</span>
+        <span class="cmd-go">↗</span>
+      </a>
+      <a class="cmd-row" href="https://github.com/i8ouleyy" target="_blank" rel="noopener">
+        <span class="cmd-text"><span class="fn">git</span> remote -v</span>
+        <span class="cmd-output">github.com/i8ouleyy</span>
+        <span class="cmd-go">↗</span>
+      </a>
+
+      <p class="term-line" style="margin-top:22px;"><span class="prompt-sign">$</span>./contact.sh --status</p>
+      <p class="term-line status-line"><span class="status-dot"></span>available for freelance & internship</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">© 2026 Stephen — built line by line.</footer>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* mobile tab menu toggle */
+  const toggleBtn = document.getElementById('tabToggle');
+  const tabs = document.getElementById('tabbarTabs');
+  toggleBtn?.addEventListener('click', () => {
+    const isOpen = tabs.classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded', isOpen);
+  });
+  tabs?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    tabs.classList.remove('open');
+    toggleBtn?.setAttribute('aria-expanded', false);
+  }));
+
+  /* scrollspy for active tab */
+  const sections = document.querySelectorAll('.section[id]');
+  const tabLinks = document.querySelectorAll('.tab');
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tabLinks.forEach(t => t.classList.toggle('active', t.dataset.section === entry.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  sections.forEach(s => spy.observe(s));
+
+  /* hero role typing loop */
+  const roles = [
+    'Frontend Developer',
+    'UI/UX Designer',
+    'RPL Student · SMK BN Semarang'
+  ];
+  const roleEl = document.getElementById('roleText');
+  if (roleEl) {
+    if (reduceMotion) {
+      roleEl.textContent = roles[0];
+    } else {
+      let ri = 0, ci = 0, deleting = false;
+      const tick = () => {
+        const word = roles[ri];
+        if (!deleting) {
+          ci++;
+          roleEl.textContent = word.slice(0, ci);
+          if (ci === word.length) { deleting = true; setTimeout(tick, 1800); return; }
+        } else {
+          ci--;
+          roleEl.textContent = word.slice(0, ci);
+          if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; setTimeout(tick, 400); return; }
         }
+        setTimeout(tick, deleting ? 35 : 55);
+      };
+      setTimeout(tick, 500);
+    }
+  }
 
-        // ---------- Like toggle ----------
-        function toggleLike(btn) {
-            const icon = btn.querySelector('i');
-            const liked = btn.classList.toggle('liked');
-            icon.classList.toggle('fa-regular', !liked);
-            icon.classList.toggle('fa-solid', liked);
-        }
+  /* count-up stats */
+  const nums = document.querySelectorAll('.blame-num');
+  let counted = false;
+  const countUp = () => {
+    if (counted) return;
+    const rect = document.querySelector('.blame-pane')?.getBoundingClientRect();
+    if (!rect || rect.top > window.innerHeight - 80) return;
+    counted = true;
+    nums.forEach(el => {
+      const target = parseInt(el.dataset.count, 10);
+      if (reduceMotion) { el.textContent = target + '+'; return; }
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / 30));
+      const iv = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(iv); }
+        el.textContent = current + '+';
+      }, 35);
+    });
+  };
+  window.addEventListener('scroll', countUp, { passive: true });
+  countUp();
+});
+</script>
 
-        // ---------- Cart + fly-to-cart animation ----------
-        let cartCount = 0;
-        function addToCart(evt, btn) {
-            cartCount++;
-            const counter = document.getElementById('cart-count');
-            counter.innerText = cartCount;
-
-            const cartIcon = document.getElementById('cart-icon');
-            const startRect = btn.getBoundingClientRect();
-            const endRect = cartIcon.getBoundingClientRect();
-
-            // Flying chip element
-            const chip = document.createElement('div');
-            chip.className = 'fly-chip';
-            chip.innerHTML = '<i class="fa-solid fa-cookie-bite" style="color:#F8F4E6"></i>';
-            chip.style.left = (startRect.left + startRect.width / 2 - 10) + 'px';
-            chip.style.top = (startRect.top + startRect.height / 2 - 10) + 'px';
-            document.body.appendChild(chip);
-
-            requestAnimationFrame(() => {
-                chip.style.transform = `translate(${endRect.left - startRect.left}px, ${endRect.top - startRect.top - 250}px) scale(.4)`;
-                chip.style.opacity = '0.2';
-            });
-
-            setTimeout(() => {
-                chip.remove();
-                cartIcon.classList.add('pop');
-                setTimeout(() => cartIcon.classList.remove('pop'), 450);
-            }, 700);
-
-            // Button feedback
-            const label = btn.querySelector('.btn-label');
-            const original = label.textContent;
-            label.textContent = 'Ditambahkan!';
-            btn.classList.add('added');
-            btn.disabled = true;
-            setTimeout(() => {
-                label.textContent = original;
-                btn.classList.remove('added');
-                btn.disabled = false;
-            }, 1100);
-        }
-
-        // ---------- Modal functionality ----------
-        function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.toggle('active');
-            document.body.style.overflow = modal.classList.contains('active') ? 'hidden' : 'auto';
-        }
-
-        // ---------- Login functionality ----------
-        function login(role) {
-            toggleModal('login-modal');
-            
-            const authSection = document.getElementById('auth-section');
-            if(role === 'customer') {
-                authSection.innerHTML = `
-                    <div class="flex items-center gap-3 cursor-pointer group">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full border-2 border-brand-accent">
-                        <div class="hidden md:block text-sm">
-                            <p class="font-bold leading-none">Sinta N.</p>
-                            <p class="text-gray-500 text-xs">Customer</p>
-                        </div>
-                        <button onclick="logout()" class="text-gray-400 hover:text-red-500 ml-2 transition" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i></button>
-                    </div>
-                `;
-            } else if (role === 'admin') {
-                authSection.innerHTML = `
-                    <div class="flex items-center gap-3 cursor-pointer group">
-                        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white border-2 border-purple-300">
-                            <i class="fa-solid fa-shield"></i>
-                        </div>
-                        <div class="hidden md:block text-sm">
-                            <p class="font-bold leading-none">Admin Panel</p>
-                            <p class="text-purple-600 text-xs font-bold">Dashboard</p>
-                        </div>
-                        <button onclick="logout()" class="text-gray-400 hover:text-red-500 ml-2 transition" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i></button>
-                    </div>
-                `;
-            }
-        }
-
-        function logout() {
-            const authSection = document.getElementById('auth-section');
-            authSection.innerHTML = `
-                <button onclick="toggleModal('login-modal')" class="bg-brand-dark text-white px-5 py-2 rounded-full font-medium hover:bg-brand-accent transition shadow-md hover:shadow-lg hover:-translate-y-0.5">Masuk</button>
-            `;
-            // Reset cart
-            cartCount = 0;
-            document.getElementById('cart-count').innerText = cartCount;
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('login-modal');
-            if (event.target == modal) {
-                toggleModal('login-modal');
-            }
-        }
-    </script>
 </body>
 </html>
